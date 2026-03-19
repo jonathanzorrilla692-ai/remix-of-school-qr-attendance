@@ -172,15 +172,17 @@ export default function Scanner() {
 
       <Card className="overflow-hidden">
         <CardContent className="p-6 space-y-4">
-          {/* This div is outside React's reconciliation — html5-qrcode owns it */}
+          {/* Placeholder shown when scanner is not active */}
+          {!scanning && !result && (
+            <div className="w-full aspect-square rounded-xl overflow-hidden bg-muted flex items-center justify-center">
+              <span className="text-muted-foreground text-sm">La cámara aparecerá aquí</span>
+            </div>
+          )}
+          {/* This div is owned entirely by html5-qrcode — no React children */}
           <div
             ref={scannerDivRef}
-            className="w-full aspect-square rounded-xl overflow-hidden bg-muted flex items-center justify-center"
-          >
-            {!scanning && !result && (
-              <span className="text-muted-foreground text-sm">La cámara aparecerá aquí</span>
-            )}
-          </div>
+            className={`w-full aspect-square rounded-xl overflow-hidden bg-muted ${!scanning && !result ? "hidden" : ""}`}
+          />
 
           {!scanning && (
             <Button className="w-full gap-2" size="lg" onClick={startScanner}>
